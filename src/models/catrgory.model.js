@@ -10,17 +10,17 @@ const categorySchema = new mongoose.Schema(
       index: true,
       trim: true,
     },
-    gst: {
+    gstRate: {
       type: Number,
       require: true,
       trim: true,
     },
-    products: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
+    // products: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Product",
+    //   },
+    // ],
     // createdBy: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: "User",
