@@ -52,7 +52,7 @@ const createProduct = asyncHandler(async (req, res) => {
   return res
     .status(200)
     .json(
-      new ApiResponse(200, productCreated, "Video uploaded to local server")
+      new ApiResponse(200, productCreated, "Product created")
     );
 });
 
