@@ -56,13 +56,9 @@ ACCESS_TOKEN_SECRET=prabhat
 ACCESS_TOKEN_EXPIRE=1d
 ```
 
-```bash
-npm start
-```
-or 
 
 ```bash
-yarn start
+yarn dev
 ```
 
 The application will be running at http://localhost:8000.
