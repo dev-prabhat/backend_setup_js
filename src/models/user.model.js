@@ -1,35 +1,22 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 // user Model Scheme
 const userSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: true,
-      unique: true,
-      lowercase: true,
-      trim: true,
-      index: true,
-    },
     email: {
       type: String,
       required: true,
       unique: true,
       lowercase: true,
       trim: true,
-      // index: true,
-    },
-    fullname: {
-      type: String,
-      require: true,
-      trim: true,
       index: true,
     },
-    password:{
-        type: String,
-        require: [true, "Password is required"],
-    }
+    password: {
+      type: String,
+      require: [true, "Password is required"],
+    },
   },
   { timestamps: true }
 );
@@ -41,9 +28,23 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.isPasswordCorrect = async function(password){
-  const isPasswordMatched = await bcrypt.compare(password, this.prototype)
-  return isPasswordMatched
-}
+userSchema.methods.isPasswordCorrect = async function (password) {
+  const isPasswordMatched = await bcrypt.compare(password, this.prototype);
+  return isPasswordMatched;
+};
+
+userSchema.methods.generateAccessToken = function () {
+  const generatedAccessToken = jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRE,
+    }
+  );
+  return generatedAccessToken;
+};
 
 export const User = mongoose.model("User", userSchema);
