@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.route("/sales/:date").get(getSaleForADay);
+router.route("/:date").get(getSaleForADay);
 router.route("/createSale").post(createSale);
 router.route("/revenue/day/:date").get(getRevenueForADay);
 router.route("/revenue/month/:year/:month").get(getRevenueForAMonth);
