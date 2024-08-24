@@ -35,20 +35,17 @@ First, clone the repository to your local machine using the following command:
 
 ```bash
 git clone https://github.com/dev-prabhat/backend_setup_js.git
-
 ```
 
 ```bash
 cd backend_setup_js
 npm install
-
 ```
 or
 
 ```bash
 cd backend_setup_js
 yarn install
-
 ```
 Create a .env file in the root of the project and add the following environment variables:
 
@@ -57,18 +54,15 @@ PORT=8000
 MONGODB_URI=mongodb+srv://prabhat:prabhat123@cluster0.ujfze.mongodb.net
 ACCESS_TOKEN_SECRET=prabhat
 ACCESS_TOKEN_EXPIRE=1d
-
 ```
 
 ```bash
 npm start
-
 ```
 or 
 
 ```bash
 yarn start
-
 ```
 
 The application will be running at http://localhost:8000.
