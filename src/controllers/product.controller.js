@@ -4,6 +4,7 @@ import { Category } from "../models/catrgory.model.js";
 import { Product } from "../models/product.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
+// create product
 const createProduct = asyncHandler(async (req, res) => {
   const { productName, categoryName, productPrice } = req.body;
 
@@ -55,6 +56,7 @@ const createProduct = asyncHandler(async (req, res) => {
     );
 });
 
+// get all Product
 const getAllProducts = asyncHandler(async (req,res) => {
   const allProducts = await Product.find({})
 

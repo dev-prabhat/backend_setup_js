@@ -14,7 +14,7 @@ const saleSchema = new mongoose.Schema({
         required: true,
       },
       quantity: { type: Number, required: true, default: 1 },
-      amount: { type: Number, required: true }, // Amount including GST
+      amount: { type: Number, required: true }, 
     },
   ],
   totalAmount: {

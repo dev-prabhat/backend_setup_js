@@ -2,7 +2,6 @@ import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Category } from "../models/catrgory.model.js";
-import { isValidObjectId } from "mongoose";
 
 // get all the categories
 const getAllCategories = asyncHandler(async (req, res) => {

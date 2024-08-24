@@ -10,6 +10,7 @@ import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
+// sales API routes
 router.use(verifyJWT)
 router.route("/:date").get(getSaleForADay);
 router.route("/createSale").post(createSale);

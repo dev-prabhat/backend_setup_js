@@ -15,16 +15,6 @@ const categorySchema = new mongoose.Schema(
       require: true,
       trim: true,
     },
-    // products: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: "Product",
-    //   },
-    // ],
-    // createdBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: "User",
-    // },
   },
   { timestamps: true }
 );

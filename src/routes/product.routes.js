@@ -4,6 +4,7 @@ import { verifyJWT } from '../middlewares/auth.middleware.js'
 
 const router = Router()
 
+// product API routes
 router.use(verifyJWT)
 router.route('/p').get(getAllProducts)
 router.route('/createProduct').post(createProduct)

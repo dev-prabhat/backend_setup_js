@@ -3,6 +3,7 @@ import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 
+// generateAccessToken
 const generateAccessTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -18,6 +19,7 @@ const generateAccessTokens = async (userId) => {
   }
 };
 
+// registerUser
 const registerUser = asyncHandler(async (req, res) => {
   const { email, password, username , isAdmin} = req.body;
 
@@ -67,6 +69,7 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 });
 
+// loginUser
 const loginUser = asyncHandler(async (req, res) => {
   const { email, username, password  } = req.body;
 
