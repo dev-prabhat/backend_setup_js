@@ -5,16 +5,16 @@ import { Product } from "../models/product.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, category, price } = req.body;
+  const { productName, categoryName, productPrice } = req.body;
 
-  if (!name || !category || !price) {
+  if (!productName.trim() || !categoryName || !productPrice) {
     throw res
       .status(400)
       .json(new ApiError(400, "", ["required fields are not prvoided"]));
   }
 
   const categoryId = await Category.findOne({
-    name: category,
+    name: categoryName,
   });
 
   if (!categoryId) {
@@ -24,18 +24,18 @@ const createProduct = asyncHandler(async (req, res) => {
   }
 
   const isProductExist = await Product.findOne({
-    name,category: categoryId
+    name:productName.toLowerCase()
   })
 
   if(isProductExist){
     throw res
     .status(403)
-    .json(new ApiError(400, "", ["product already exist in the same category"]));
+    .json(new ApiError(400, "", ["product already exist"]));
   }
 
   const productCreated = await Product.create({
-    name,
-    price,
+    name:productName.toLowerCase(),
+    price:productPrice,
     category: categoryId,
   });
 
@@ -55,4 +55,25 @@ const createProduct = asyncHandler(async (req, res) => {
     );
 });
 
-export { createProduct };
+const getAllProducts = asyncHandler(async (req,res) => {
+  const allProducts = await Product.find({})
+
+  if (!allProducts) {
+    throw res
+      .status(500)
+      .json(
+        new ApiError(500, "", [
+          "Something went wrong while fetching categories from DB",
+        ])
+      );
+  }
+
+  if (!allProducts.length) {
+    throw res.status(500).json(new ApiError(500, "", ["categories are empty"]));
+  }
+  return res.json(
+    new ApiResponse(200, allProducts, "found all categories in DB")
+  );
+})
+
+export { createProduct , getAllProducts};
