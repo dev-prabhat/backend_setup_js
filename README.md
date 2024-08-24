@@ -43,31 +43,31 @@ cd backend_setup_js
 npm install
 
 ```
-```bash
-or 
+or
 
+```bash
 cd backend_setup_js
 yarn install
 
 ```
-
-```bash
-
 Create a .env file in the root of the project and add the following environment variables:
 
+```bash
 PORT=8000
 MONGODB_URI=mongodb+srv://prabhat:prabhat123@cluster0.ujfze.mongodb.net
 ACCESS_TOKEN_SECRET=prabhat
 ACCESS_TOKEN_EXPIRE=1d
 
 ```
-```bash
 
+```bash
 npm start
+
+```
+
+```bash
+yarn start
+
 ```
 
 The application will be running at http://localhost:8000.
-
-```
-
-
