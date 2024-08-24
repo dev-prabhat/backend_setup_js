@@ -6,9 +6,11 @@ import {
   getRevenueForAYear,
   getSaleForADay,
 } from "../controllers/sale.controller.js";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
+router.use(verifyJWT)
 router.route("/:date").get(getSaleForADay);
 router.route("/createSale").post(createSale);
 router.route("/revenue/day/:date").get(getRevenueForADay);
