@@ -13,7 +13,6 @@ const saleSchema = new mongoose.Schema({
         ref: "Category",
         required: true,
       },
-      gstRate: { type: Number, required: true },
       quantity: { type: Number, required: true, default: 1 },
       amount: { type: Number, required: true }, // Amount including GST
     },
