@@ -7,32 +7,34 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 // add sales details
 const createSale = asyncHandler(async (req, res) => {
   // const { productId } = req.params;
-  const { products } = req.body;
+  const salesData = req.body;
   let totalAmount = 0;
 
-  if (!products.length) {
+  if (!salesData.length) {
     throw res
       .status(400)
       .json(new ApiError(400, "", ["required fields are not prvoided"]));
   }
 
   const saleProducts = await Promise.all(
-    products.map(async (item) => {
-      const product = await Product.findById(item.productId).populate(
-        "category"
-      );
+    salesData.map(async (item) => {
+      if (!item._id || !item.product || !item.category || !item.price || !item.tax || !item.gstRate) {
+        throw res
+          .status(400)
+          .json(new ApiError(400, "", ["required fields are not prvoided"]));
+      }
+      const product = await Product.findById(item._id).populate("category");
 
-      const price = parseInt(product.price)
+      const price = parseInt(product.price);
       const quantity = parseInt(item.quantity) || 1;
-      const gstRate = product.category.gstRate
+      const gstRate = product.category.gstRate;
 
       const amount = price * (1 + gstRate / 100) * quantity;
 
       totalAmount += amount;
       return {
-        product: product._id,
-        category: product.category._id,
-        gstRate: gstRate,
+        category: product.category,
+        product: product,
         quantity: item.quantity,
         amount: amount,
       };
@@ -62,9 +64,9 @@ const getSaleForADay = asyncHandler(async (req, res) => {
   if (!date) {
     throw res.status(400).json(new ApiError(400, "", ["date is not prvoided"]));
   }
-console.log(typeof parseInt(date))
-  const startOfDay = new Date(date.setHours(0, 0, 0, 0));
-  const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+
+  const startOfDay = new Date(date).setHours(0, 0, 0, 0);
+  const endOfDay = new Date(date).setHours(23, 59, 59, 999);
 
   const sales = await Sale.find({
     saleDate: {
@@ -78,7 +80,7 @@ console.log(typeof parseInt(date))
   if (!sales.length) {
     throw res
       .status(400)
-      .json(new ApiError(400, "", ["failed to fetch sales details from DB"]));
+      .json(new ApiError(400, "", ["sales data for this dates does not exist"]));
   }
 
   return res
@@ -94,11 +96,18 @@ const getRevenueForADay = asyncHandler(async (req, res) => {
     throw res.status(400).json(new ApiError(400, "", ["date is not prvoided"]));
   }
 
-  const startOfDay = new Date(date.setHours(0, 0, 0, 0));
-  const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+  const startOfDay = new Date(date).setHours(0, 0, 0, 0);
+  const endOfDay = new Date(date).setHours(23, 59, 59, 999);
 
   const sales = await Sale.aggregate([
-    { $match: { saleDate: { $gte: startOfDay, $lte: endOfDay } } },
+    {
+      $match: {
+        saleDate: {
+          $gte: new Date(startOfDay),
+          $lte: new Date(endOfDay),
+        },
+      },
+    },
     { $group: { _id: null, totalRevenue: { $sum: "$totalAmount" } } },
   ]);
 
@@ -143,7 +152,7 @@ const getRevenueForAMonth = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, totalRevenue, "total revenue for a day"));
+    .json(new ApiResponse(200, totalRevenue, "total revenue for a month"));
 });
 
 // get revenue for a year
@@ -173,7 +182,7 @@ const getRevenueForAYear = asyncHandler(async (req, res) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, totalRevenue, "total revenue for a day"));
+    .json(new ApiResponse(200, totalRevenue, "total revenue for a year"));
 });
 
 export {
