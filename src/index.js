@@ -9,11 +9,10 @@ connectDB()
       console.error("Error", error);
     });
     app.listen(process.env.PORT || 8000, () => {
-      console.log(`Server is running on PORT`);
+      console.log(`Server is running on PORT`, process.env.PORT);
     });
   })
   .catch((error) => {
-    console.log("EXPRESS server ERROR", error)
-    process.exit(1)
+    console.log("EXPRESS server ERROR", error);
+    process.exit(1);
   });
-console.log("Hello there");
