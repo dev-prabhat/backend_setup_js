@@ -13,6 +13,18 @@ const userSchema = new mongoose.Schema(
       trim: true,
       index: true,
     },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
+    isAdmin:{
+      type: Boolean,
+      default: false
+    },
     password: {
       type: String,
       require: [true, "Password is required"],
@@ -29,7 +41,7 @@ userSchema.pre("save", async function (next) {
 });
 
 userSchema.methods.isPasswordCorrect = async function (password) {
-  const isPasswordMatched = await bcrypt.compare(password, this.prototype);
+  const isPasswordMatched = await bcrypt.compare(password, this.password);
   return isPasswordMatched;
 };
 
@@ -38,6 +50,7 @@ userSchema.methods.generateAccessToken = function () {
     {
       _id: this._id,
       email: this.email,
+      username: this.username
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
