@@ -64,6 +64,7 @@ ACCESS_TOKEN_EXPIRE=1d
 npm start
 
 ```
+or 
 
 ```bash
 yarn start
